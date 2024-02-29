@@ -1,0 +1,64 @@
+﻿<div>
+    <div>
+        Global Electricity Demand by Energy Use
+    </div>
+    <div class="legend">
+        <IgbItemLegend Name="Legend"
+                       @ref="legend"
+                       Orientation="LegendOrientation.Horizontal">
+        </IgbItemLegend>
+
+    </div>
+    <div>
+        <IgbPieChart Name="chart"
+                     @ref="chart"
+                     Height="450px"
+                     Width="450px"
+                     LegendLabelMemberPath="Category"
+                     LabelMemberPath="Summary"
+                     LabelsPosition="LabelsPosition.BestFit"
+                     ValueMemberPath="Value"
+                     RadiusFactor="0.7"
+                     DataSource="EnergyGlobalDemand"
+                     TextStyle="20px Times New Roman">
+        </IgbPieChart>
+
+    </div>
+</div>
+
+@code {
+    private Action? BindElements { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var legend = this.legend;
+        var chart = this.chart;
+
+        this.BindElements = () =>
+        {
+            if(chart != null)
+            {
+                chart.Legend = this.legend;
+            }
+        };
+        this.BindElements();
+
+    }
+
+    private IgbItemLegend? legend;
+    private IgbPieChart? chart;
+
+    private EnergyGlobalDemand? _energyGlobalDemand = null;
+    public EnergyGlobalDemand EnergyGlobalDemand
+    {
+        get
+        {
+            if (_energyGlobalDemand == null)
+            {
+                _energyGlobalDemand = new EnergyGlobalDemand();
+            }
+            return _energyGlobalDemand;
+        }
+    }
+
+}
